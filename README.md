@@ -15,6 +15,14 @@ This is a machine task.
 
 *Coming soon*
 
+## Testing  
+
+```bash
+docker run -it --rm --name verdaccio -p 4873:4873 verdaccio/verdaccio
+```
+
+
+
 ## Code of conduct
 
 See the [CODE OF CONDUCT](CODE_OF_CONDUCT.md) file.
