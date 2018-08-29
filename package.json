@@ -1,0 +1,26 @@
+{
+  "name": "wallets-updater",
+  "version": "1.0.0",
+  "description": "Automatic updater for wallet.json ",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^23.5.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LePetitBloc/wallets-updater.git"
+  },
+  "author": "Jules Aaelio <jules@lepetitbloc.net>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LePetitBloc/wallets-updater/issues"
+  },
+  "homepage": "https://github.com/LePetitBloc/wallets-updater#readme"
+}
