@@ -13,7 +13,7 @@ class Checker {
     const pendingUpdates = [];
     for (let property in wallets) {
       if (wallets.hasOwnProperty(property)) {
-        const pendingUpdate = new Checker(property, wallets[property]);
+        const pendingUpdate = new Checker(property, wallets[property]).check();
         pendingUpdates.push(pendingUpdate);
       }
     }

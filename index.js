@@ -1,5 +1,4 @@
 require('dotenv').config();
-const util = require("util");
 
 console.log(` --wallets updater started at ${new Date()} --`);
 
@@ -9,6 +8,8 @@ if(!process.env.REMOTE_REPOSITORY) {
 if(!process.env.WORKSPACE_DIR) {
   throw new Error('missing environnement variable : WORKSPACE_DIR');
 }
+
+
 
 (async function() {
   try {
