@@ -20,6 +20,48 @@ class Version {
     throw new Error("Can't parse version string : syntax error");
   }
 
+  static arrayFromTagList(tagList) {
+    const versions = [];
+    let version;
+    versionNumberRegexp.lastIndex = 0;
+    while ((version = versionNumberRegexp.exec(tagList))) {
+      versions.push(new Version(version));
+    }
+    return versions;
+  }
+
+  static sorter(a, b) {
+      if (
+        a.major > b.major ||
+        (a.major >= b.major && a.minor > b.minor) ||
+        (a.major >= b.major && a.minor >= b.minor && a.patch > b.patch) ||
+        (a.major >= b.major && a.minor >= b.minor && a.patch >= b.patch && a.fourth > b.fourth)
+      ) {
+        return 1;
+      } else {
+        return -1;
+      }
+  }
+
+  superiorTo() {
+    return version => {
+      if (version.major === this.major) {
+        if (version.minor > this.minor) {
+          return 1;
+        } else if (version.minor === this.minor) {
+          if (version.patch > this.patch) {
+            return 1;
+          } else if (version.patch === this.patch) {
+            if (version.fourth > this.fourth) {
+              return 1;
+            }
+          }
+        }
+      }
+      return 0;
+    };
+  }
+
   toString() {
     return `${this.prefix}${this.major}.${this.minor}${this.patch !== null ? `.${this.patch}` : ""}`+
       `${this.fourth !== null ? `.${this.fourth}` : ""}`
