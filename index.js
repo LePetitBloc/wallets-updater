@@ -1,6 +1,4 @@
 require('dotenv').config();
-const Update = require('./src/definitions/Update');
-const Version = require('./src/definitions/Version');
 const Checker = require('./src/definitions/Checker');
 const git = require('simple-git/promise');
 const workspacePath = './workspace';

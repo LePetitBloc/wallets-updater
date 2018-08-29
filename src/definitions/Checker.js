@@ -5,7 +5,6 @@ const Update = require('./Update');
 class Checker {
   constructor(identifier, wallet) {
     this.identifier = identifier;
-    this.wallet = wallet;
     this.repository = wallet.repository;
     this.tag = wallet.tag;
   }
