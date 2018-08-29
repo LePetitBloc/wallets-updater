@@ -9,6 +9,17 @@ class Checker {
     this.tag = wallet.tag;
   }
 
+  static checkAll(wallets) {
+    const pendingUpdates = [];
+    for (let property in wallets) {
+      if (wallets.hasOwnProperty(property)) {
+        const pendingUpdate = new Checker(property, wallets[property]);
+        pendingUpdates.push(pendingUpdate);
+      }
+    }
+    return Promise.all(pendingUpdates);
+  }
+
   async check() {
     if(!this.repository) {
       throw new Error('No repository provided - Cannot check for update');
