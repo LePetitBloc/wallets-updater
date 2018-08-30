@@ -9,21 +9,29 @@ if(!process.env.WORKSPACE_DIR) {
   throw new Error('missing environnement variable : WORKSPACE_DIR');
 }
 
+if (!process.env.GITHUB_TOKEN) {
+  throw new Error("missing environnement variable : GITHUB_TOKEN - cannot send modifications to server.");
+}
+
+
 
 (async function() {
   try {
-    await require('./src/lib/loadRepository')(process.env.WORKSPACE_DIR, process.env.REMOTE_REPOSITORY);
-    const Checker = require('./src/definitions/Checker');
-    const Updater = require('./src/definitions/Updater.js');
-    const wallets = require(process.env.WORKSPACE_DIR + '/wallets.json');
+    // await require('./src/lib/loadRepository')(process.env.WORKSPACE_DIR, process.env.REMOTE_REPOSITORY);
+    // const Checker = require('./src/definitions/Checker');
+    // const Updater = require('./src/definitions/Updater.js');
+    const GitPublisher = require('./src/definitions/GitPublisher');
+    // const wallets = require(process.env.WORKSPACE_DIR + '/wallets.json');
+    //
+    // let updates = await Checker.checkAll(wallets);
+    // updates = updates.filter(o => o !== null);
+    //
+    // if(updates.length > 0) {
+    //  const updateSummary =  await Updater.update(updates);
+    //  console.log(updateSummary);
+    // }
+    await new GitPublisher(process.cwd() + '/' + process.env.WORKSPACE_DIR, process.env.REMOTE_REPOSITORY, process.env.GITHUB_TOKEN ).setCredentials();
 
-    let updates = await Checker.checkAll(wallets);
-    updates = updates.filter(o => o !== null);
-
-    if(updates.length > 0) {
-     const updateSummary =  await Updater.update(updates);
-     console.log(updateSummary);
-    }
 
   } catch (e) {
     console.error(e);
