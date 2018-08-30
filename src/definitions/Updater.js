@@ -4,8 +4,9 @@ const Version = require('./Version');
 
 class Updater {
   static async update(updates) {
-      await Updater.updateWallets(updates);
+      const updateSummary = await Updater.updateWallets(updates);
       await Updater.updateVersionNumber();
+      return updateSummary;
    }
 
    static async updateVersionNumber() {
@@ -22,12 +23,16 @@ class Updater {
    static async updateWallets(updates) {
      const filePath = process.cwd() + '/' + process.env.WORKSPACE_DIR + '/wallets.json';
      const wallets = require(filePath);
+     let updateSummary = "Update wallet.json\n\n";
+
      updates.forEach(update => {
        if (update) {
          wallets[update.walletIdentifier].tag = update.to.toString();
+         updateSummary += `${update.toString()} \n`;
        }
      });
-     return writeFile(filePath, JSON.stringify(wallets, null, "  "));
+     await writeFile(filePath, JSON.stringify(wallets, null, "  "));
+     return updateSummary;
    }
 }
 

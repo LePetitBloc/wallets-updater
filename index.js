@@ -10,7 +10,6 @@ if(!process.env.WORKSPACE_DIR) {
 }
 
 
-
 (async function() {
   try {
     await require('./src/lib/loadRepository')(process.env.WORKSPACE_DIR, process.env.REMOTE_REPOSITORY);
@@ -22,7 +21,8 @@ if(!process.env.WORKSPACE_DIR) {
     updates = updates.filter(o => o !== null);
 
     if(updates.length > 0) {
-      await Updater.update(updates);
+     const updateSummary =  await Updater.update(updates);
+     console.log(updateSummary);
     }
 
   } catch (e) {
