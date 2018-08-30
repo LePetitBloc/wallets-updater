@@ -1,0 +1,2 @@
+registry=http://${NPM_REGISTRY}
+//${NPM_REGISTRY}/:_authToken=${NPM_TOKEN}
