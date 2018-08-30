@@ -17,22 +17,24 @@ if (!process.env.GITHUB_TOKEN) {
 
 (async function() {
   try {
-    // await require('./src/lib/loadRepository')(process.env.WORKSPACE_DIR, process.env.REMOTE_REPOSITORY);
-    // const Checker = require('./src/definitions/Checker');
-    // const Updater = require('./src/definitions/Updater.js');
+    const workspacePath =  `${process.cwd()}/${process.env.WORKSPACE_DIR}`;
+    console.log(workspacePath);
+    await require('./src/lib/loadRepository')(workspacePath, process.env.REMOTE_REPOSITORY);
+    const Checker = require('./src/definitions/Checker');
+    const Updater = require('./src/definitions/Updater.js');
     const GitPublisher = require('./src/definitions/GitPublisher');
-    // const wallets = require(process.env.WORKSPACE_DIR + '/wallets.json');
-    //
-    // let updates = await Checker.checkAll(wallets);
-    // updates = updates.filter(o => o !== null);
-    //
-    // if(updates.length > 0) {
-    //  const updateSummary =  await Updater.update(updates);
-    //  console.log(updateSummary);
-    // }
-    await new GitPublisher(process.cwd() + '/' + process.env.WORKSPACE_DIR, process.env.REMOTE_REPOSITORY, process.env.GITHUB_TOKEN ).setCredentials();
+    const manifest = require(workspacePath + '/package.json');
+    const wallets = require(workspacePath + '/wallets.json');
 
+    let updates = await Checker.checkAll(wallets);
+    updates = updates.filter(o => o !== null);
 
+    if(updates.length > 0) {
+     const updateSummary =  await Updater.update(updates);
+     console.log(updateSummary);
+      await new GitPublisher(workspacePath, process.env.REMOTE_REPOSITORY, process.env.GITHUB_TOKEN )
+        .publish('Update wallets.json',updateSummary,manifest.version);
+    }
   } catch (e) {
     console.error(e);
   }

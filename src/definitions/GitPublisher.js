@@ -6,43 +6,40 @@ class GitPublisher {
   constructor(workspacePath, token) {
     this.workspacePath = workspacePath;
     this.token = token;
+    this.git = git(this.workspacePath)
+      .outputHandler((command, stdout, stderr) => {
+        stdout.pipe(process.stdout);
+        stderr.pipe(process.stderr);
+      });
   }
 
   async setCredentials() {
-    const { stdout, stderr } = await exec(`eval "$(ssh-agent -s)" && echo -e '${this.token}' ssh-add -`);
-
-    console.log(stdout);
-    console.log(stderr);
+      await exec(`eval "$(ssh-agent -s)" && echo -e '${this.token}' ssh-add -`);
   }
 
-  async commit(message) {
-     const output = await git(this.workspacePath)
-       .add(['wallets.json','package.json.'])
-       .commit(message);
-     console.log(output);
+  async commit(title, message) {
+    await this.git.add(['wallets.json', 'package.json']);
+    return await this.git.commit([title, message]);
   }
 
   async tag(tag, message) {
-    const output =  await git(this.workspacePath)
-      .addAnnotatedTag(tag,message);
-    console.log(output);
+    return await this.git
+      .addAnnotatedTag(tag, message);
   }
 
   async push() {
-    const output =  await git(this.workspacePath)
-      .push('origin','HEAD',{
+    return await this.git
+      .push('origin', 'HEAD', {
         '--follow-tags': null
       });
-    console.log(output);
   }
 
 
-  async publish(commitMessage, versionTag) {
+  async publish(commitTitle, commitMessage , versionTag) {
     await this.setCredentials();
-    await this.commit(commitMessage);
+    await this.commit(commitTitle, commitMessage);
     await this.tag(versionTag, commitMessage);
     await this.push()
-
   }
 
 }

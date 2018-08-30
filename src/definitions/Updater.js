@@ -23,7 +23,7 @@ class Updater {
    static async updateWallets(updates) {
      const filePath = process.cwd() + '/' + process.env.WORKSPACE_DIR + '/wallets.json';
      const wallets = require(filePath);
-     let updateSummary = "Update wallet.json\n\n";
+     let updateSummary = "";
 
      updates.forEach(update => {
        if (update) {
