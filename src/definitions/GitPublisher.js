@@ -14,7 +14,9 @@ class GitPublisher {
   }
 
   async setCredentials() {
-      await exec(`eval "$(ssh-agent -s)" && echo -e '${this.token}' ssh-add -`);
+    console.log('set');
+    const {stdout, stderr} =   await exec(`eval "$(ssh-agent -s)" && echo -e '${this.token}' ssh-add -`);
+    console.log(stdout, stderr);
   }
 
   async commit(title, message) {
