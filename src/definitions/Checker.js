@@ -1,4 +1,4 @@
-const git = require('simple-git/promise')(process.env.WORKSPACE_DIR);
+const git = require('simple-git/promise')();
 const Version = require('./Version');
 const Update = require('./Update');
 

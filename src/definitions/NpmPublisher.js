@@ -12,9 +12,9 @@ class NpmPublisher {
     await copy(this.configFilePath, `${this.workspacePath}/.npmrc`);
   }
 
-  static async checkAuthentication() {
+   async checkAuthentication() {
     try {
-      await exec("npm whoami");
+      await exec("npm whoami", { cwd : this.workspacePath});
     } catch (e) {
       throw new Error("Something went wrong authenticating you on npm - Check your NPM_TOKEN validity");
     }
@@ -22,8 +22,8 @@ class NpmPublisher {
 
   async publish() {
     await this.setCredentials();
-    await NpmPublisher.checkAuthentication();
-    const { stdout } = await exec("npm publish");
+    await this.checkAuthentication();
+    const { stdout } = await exec("npm publish",  { cwd : this.workspacePath});
     console.log(stdout);
   }
 
