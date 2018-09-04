@@ -22,23 +22,23 @@ if (!process.env.GITHUB_TOKEN) {
 (async function() {
   try {
     const workspacePath =  `${process.cwd()}/${process.env.WORKSPACE_DIR}`;
-    //
-    // const gitPublisher = new GitPublisher(workspacePath, process.env.REMOTE_REPOSITORY, process.env.GITHUB_TOKEN );
-    // await gitPublisher.init();
-    //
-    // const manifest = require(workspacePath + '/package.json');
-    // const wallets = require(workspacePath + '/wallets.json');
-    //
-    // let updates = await Checker.checkAll(wallets);
-    // updates = updates.filter(o => o !== null);
-    //
-    // if(updates.length > 0) {
-    //  const updateSummary =  await Updater.update(updates);
-    //  console.log(updateSummary);
-    //   await gitPublisher.publish('Update wallets.json',updateSummary,manifest.version);
+
+    const gitPublisher = new GitPublisher(workspacePath, process.env.REMOTE_REPOSITORY, process.env.GITHUB_TOKEN );
+    await gitPublisher.init();
+
+    const manifest = require(workspacePath + '/package.json');
+    const wallets = require(workspacePath + '/wallets.json');
+
+    let updates = await Checker.checkAll(wallets);
+    updates = updates.filter(o => o !== null);
+
+    if(updates.length > 0) {
+     const updateSummary =  await Updater.update(updates);
+     console.log(updateSummary);
+      await gitPublisher.publish('Update wallets.json',updateSummary,manifest.version);
 
       await new NpmPublisher(workspacePath, `${process.cwd()}/src/assets/.npmrc.dist`).publish();
-    // }
+    }
   } catch (e) {
     console.error(e);
   }
