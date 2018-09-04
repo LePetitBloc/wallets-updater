@@ -9,18 +9,37 @@ This is a machine task.
 
 ## Installation
 
-*Coming soon*
+```bash
+npm install
+```
 
 ## Usage
 
-*Coming soon*
+```bash
+node index.js
+```
 
 ## Testing  
 
+- Start a local registry with verdaccio.
 ```bash
 docker run -it --rm --name verdaccio -p 4873:4873 verdaccio/verdaccio
 ```
 
+- Create a new user 
+```bash
+npm adduser --registy http://localhost:4873
+```
+
+- Copy the token in `~/.npmrc` and delete the line. 
+
+```
+//localhost:4873:_authToken="<TOKEN_IS_HERE>"
+```
+
+- Fork the [wallets](https://github.com/LePetitBloc/wallets) and add a deployment key.
+
+- Set up the .env file according to the [.env.dist](.env.dist)
 
 
 ## Code of conduct
