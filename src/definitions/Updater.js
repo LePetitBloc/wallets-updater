@@ -3,14 +3,18 @@ const writeFile = util.promisify(require('fs').writeFile);
 const Version = require('./Version');
 
 class Updater {
-  static async update(updates) {
-    const updateSummary = await Updater.updateWallets(updates);
-    await Updater.updateVersionNumber();
+  constructor(workspacePath) {
+     this.workspacePath =workspacePath;
+  }
+
+  async update(updates) {
+    const updateSummary = await this.updateWallets(updates);
+    await this.updateVersionNumber();
     return updateSummary;
   }
 
-  static async updateVersionNumber() {
-    const filePath = process.cwd() + '/' + process.env.WORKSPACE_DIR + '/package.json';
+  async updateVersionNumber() {
+    const filePath =`${this.workspacePath}/package.json`;
     const manifest = require(filePath);
     const currentVersion = Version.fromVersionString(manifest.version);
     currentVersion.patch += 1;
@@ -19,8 +23,8 @@ class Updater {
     return writeFile(filePath, JSON.stringify(manifest, null, '  '));
   }
 
-  static async updateWallets(updates) {
-    const filePath = process.cwd() + '/' + process.env.WORKSPACE_DIR + '/wallets.json';
+  async updateWallets(updates) {
+    const filePath = `${this.workspacePath}/wallets.json`;
     const wallets = require(filePath);
     let updateSummary = '';
 

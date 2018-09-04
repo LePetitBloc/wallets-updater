@@ -31,7 +31,7 @@ if (!process.env.GITHUB_TOKEN) {
     updates = updates.filter(o => o !== null);
 
     if (updates.length > 0) {
-      const updateSummary = await Updater.update(updates);
+      const updateSummary = await new Updater(workspacePath).update(updates);
       console.log(updateSummary);
       await gitPublisher.publish('Update wallets.json', updateSummary, manifest.version);
 
