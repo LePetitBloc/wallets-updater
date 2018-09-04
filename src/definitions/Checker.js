@@ -21,10 +21,10 @@ class Checker {
   }
 
   async check() {
-    if(!this.repository) {
+    if (!this.repository) {
       throw new Error('No repository provided - Cannot check for update');
     }
-    const tags = await git.listRemote(['--tags',[this.repository]]);
+    const tags = await git.listRemote(['--tags', [this.repository]]);
     let versions = Version.arrayFromTagList(tags);
     const currentVersion = this.findCurrentVersion();
     if (currentVersion) {
@@ -41,7 +41,7 @@ class Checker {
   findCurrentVersion() {
     try {
       return Version.fromVersionString(this.tag);
-    }catch (e) {
+    } catch (e) {
       console.warn(`Can't determined current version for wallet :  ${this.identifier}  missing tag`);
       return null;
     }

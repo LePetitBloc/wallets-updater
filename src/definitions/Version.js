@@ -1,7 +1,7 @@
 const versionNumberRegexp = /([vV])?([0-9]{1,2})\.([0-9]{1,2})(?:\.([0-9]{1,2}))?(?:\.([0-9]{1,2}))?[\n|\s]?/g;
 class Version {
   constructor(versionRegexpResult) {
-    this.prefix = versionRegexpResult[1] || "";
+    this.prefix = versionRegexpResult[1] || '';
     this.major = parseInt(versionRegexpResult[2]);
     this.minor = parseInt(versionRegexpResult[3]);
     this.patch = versionRegexpResult[4] ? parseInt(versionRegexpResult[4]) : null;
@@ -9,7 +9,7 @@ class Version {
   }
 
   static fromVersionString(versionString) {
-    if (typeof versionString === "string") {
+    if (typeof versionString === 'string') {
       versionNumberRegexp.lastIndex = 0;
       const regexpResult = versionNumberRegexp.exec(versionString);
       if (regexpResult) {
@@ -31,16 +31,16 @@ class Version {
   }
 
   static sorter(a, b) {
-      if (
-        a.major > b.major ||
-        (a.major >= b.major && a.minor > b.minor) ||
-        (a.major >= b.major && a.minor >= b.minor && a.patch > b.patch) ||
-        (a.major >= b.major && a.minor >= b.minor && a.patch >= b.patch && a.fourth > b.fourth)
-      ) {
-        return 1;
-      } else {
-        return -1;
-      }
+    if (
+      a.major > b.major ||
+      (a.major >= b.major && a.minor > b.minor) ||
+      (a.major >= b.major && a.minor >= b.minor && a.patch > b.patch) ||
+      (a.major >= b.major && a.minor >= b.minor && a.patch >= b.patch && a.fourth > b.fourth)
+    ) {
+      return 1;
+    } else {
+      return -1;
+    }
   }
 
   superiorTo() {
@@ -63,8 +63,10 @@ class Version {
   }
 
   toString() {
-    return `${this.prefix}${this.major}.${this.minor}${this.patch !== null ? `.${this.patch}` : ""}`+
-      `${this.fourth !== null ? `.${this.fourth}` : ""}`
+    return (
+      `${this.prefix}${this.major}.${this.minor}${this.patch !== null ? `.${this.patch}` : ''}` +
+      `${this.fourth !== null ? `.${this.fourth}` : ''}`
+    );
   }
 }
 
