@@ -16,6 +16,7 @@ class NpmPublisher {
     try {
       await exec('npm whoami', { cwd: this.workspacePath });
     } catch (e) {
+      console.log(e);
       throw new Error('Something went wrong authenticating you on npm - Check your NPM_TOKEN validity');
     }
   }

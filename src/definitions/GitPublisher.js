@@ -13,7 +13,9 @@ class GitPublisher {
   }
 
   async init() {
-    await this.setCredentials();
+    if(!process.env.running_in_docker) {
+      await this.setCredentials();
+    }
 
     const workspaceExist = await exists(this.workspacePath);
     if (!workspaceExist) {
@@ -56,7 +58,6 @@ class GitPublisher {
   }
 
   async publish(commitTitle, commitMessage, versionTag) {
-    await this.setCredentials();
     await this.commit(commitTitle, commitMessage);
     await this.tag(versionTag, commitMessage);
     await this.push();
