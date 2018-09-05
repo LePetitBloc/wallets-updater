@@ -58,9 +58,11 @@ class GitPublisher {
   }
 
   async publish(commitTitle, commitMessage, versionTag) {
+    console.info("[INFO] Publishing changes to git repository");
     await this.commit(commitTitle, commitMessage);
     await this.tag(versionTag, commitMessage);
     await this.push();
+    console.info("[OK] Published changes to git repository");
   }
 }
 

@@ -22,10 +22,12 @@ class NpmPublisher {
   }
 
   async publish() {
+    console.info('[INFO] Publishing package to npm');
     await this.setCredentials();
     await this.checkAuthentication();
     const { stdout } = await exec('npm publish', { cwd: this.workspacePath });
     console.log(stdout);
+    console.info('[OK] Published package to npm')
   }
 }
 
