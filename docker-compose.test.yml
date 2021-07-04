@@ -1,0 +1,20 @@
+version: '3'
+services:
+  updater:
+    build: .
+    env_file: .env
+    links:
+      - verdaccio
+    depends_on:
+      - verdaccio
+    volumes:
+      - ./:/container-data
+    stdin_open: true
+    tty: true
+    environment:
+      ENV : test
+
+  verdaccio: 
+    image: verdaccio/verdaccio
+    ports:
+      - 4873:4873
